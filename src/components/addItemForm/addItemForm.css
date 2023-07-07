@@ -1,0 +1,23 @@
+.add-item-form {
+  display: flex;
+}
+
+.add-item-form input {
+  width: 100%;
+  background-color: var(--gray);
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--light-blue);
+  outline: none;
+}
+
+.add-item-form button {
+  padding: 10px;
+  border: 2px solid var(--gray);
+  color: gray;
+}
+
+.add-item-form button:hover {
+  color: #fff;
+}

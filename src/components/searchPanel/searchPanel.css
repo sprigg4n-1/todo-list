@@ -1,0 +1,33 @@
+.search-box {
+  display: flex;
+  height: 40px;
+  border-radius: 3px;
+  background-color: var(--primary-gray);
+  transition: all 0.2s;
+}
+
+.search-box:hover {
+  background-color: var(--gray);
+}
+
+.search__btn {
+  height: 100%;
+  width: 45px;
+  text-align: center;
+}
+
+.search__btn-icon {
+  color: var(--blue);
+  height: 35px;
+  width: 20px;
+}
+
+.search__input {
+  padding: 5px 5px 5px 0;
+  width: 360px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  outline: none;
+  font-size: 18px;
+}

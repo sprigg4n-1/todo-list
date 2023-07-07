@@ -1,0 +1,24 @@
+.sidebar {
+  min-height: calc(100vh - 55px);
+  width: 360px;
+  padding: 25px 0;
+  background-color: var(--primary-gray);
+}
+
+.sidebar.closed {
+  display: none;
+}
+
+.sidebar__burger-btn {
+  margin-left: 25px;
+}
+
+.sidebar__burger-btn-icon {
+  height: 40px;
+  width: 25px;
+  color: #fff;
+}
+
+.sidebar__burger-btn-icon:hover {
+  color: var(--blue);
+}

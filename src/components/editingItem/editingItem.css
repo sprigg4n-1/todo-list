@@ -1,0 +1,6 @@
+.editing {
+  min-height: calc(100vh - 55px);
+  width: 300px;
+  padding: 25px;
+  background-color: var(--gray);
+}
