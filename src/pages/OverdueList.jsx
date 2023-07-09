@@ -10,6 +10,7 @@ const OverdueList = ({
   removeTodoItem,
   toggleCheckedItem,
   toggleImportantItem,
+  toggleEditingMode,
 }) => {
   return (
     <div className="tasks-box">
@@ -31,6 +32,7 @@ const OverdueList = ({
               removeTodoItem={removeTodoItem}
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}
+              toggleEditingMode={toggleEditingMode}
             />
           ) : null;
         })}

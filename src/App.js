@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import { Header, Sidebar, EditingItem } from "./components";
+import { EditingItem, Header, Sidebar } from "./components";
 
 import { FaRegStar } from "react-icons/fa";
 import { GoSun } from "react-icons/go";
@@ -51,6 +51,12 @@ function App() {
   // sidebar menu
   const [activeMenu, setActiveMenu] = useState(true);
 
+  // element for editing
+  const [currentItemEdit, setCurrentItemEdit] = useState([]);
+
+  // Editing mode
+  const [activeEditing, setActiveEditing] = useState(false);
+
   // todo list item
   const [todoItems, setTodoItems] = useState(() => {
     const localValue = localStorage.getItem("ITEMS");
@@ -72,7 +78,7 @@ function App() {
     }
   });
 
-  // set todoItems to local storage
+  // set todoItems to local storag
   useEffect(() => {
     localStorage.setItem("ITEMS", JSON.stringify(todoItems));
   }, [todoItems]);
@@ -97,6 +103,7 @@ function App() {
   // remove item from todo list
   function removeTodoItem(id) {
     setTodoItems(todoItems.filter((item) => item.id !== id));
+    setActiveEditing(false);
   }
 
   // toggle check item status
@@ -133,6 +140,8 @@ function App() {
 
   // function for toggle sidebar item and change page
   function toggleActiveSidebarItem(id) {
+    setActiveEditing(false);
+
     setSidebarItems((currentSidebarItem) => {
       return currentSidebarItem.map((item) => {
         if (item.id === id) {
@@ -160,6 +169,16 @@ function App() {
     setActiveMenu(false);
   }
 
+  // toggle editing mode
+  function toggleEditingMode(id) {
+    setActiveEditing((activeEditing) => !activeEditing);
+
+    if (activeEditing) {
+      const itemForEditing = todoItems.filter((item) => item.id === id);
+      setCurrentItemEdit(itemForEditing);
+    }
+  }
+
   return (
     <BrowserRouter>
       <div className="app">
@@ -185,6 +204,7 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
+                  toggleEditingMode={toggleEditingMode}
                 />
               }
             />
@@ -200,6 +220,7 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
+                  toggleEditingMode={toggleEditingMode}
                 />
               }
             />
@@ -230,11 +251,18 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
+                  toggleEditingMode={toggleEditingMode}
                 />
               }
             />
           </Routes>
-          <EditingItem />
+          <EditingItem
+            activeEditing={activeEditing}
+            text={currentItemEdit[0]?.text}
+            elemId={currentItemEdit[0]?.id}
+            important={currentItemEdit[0]?.important}
+            removeTodoItem={removeTodoItem}
+          />
         </div>
       </div>
     </BrowserRouter>

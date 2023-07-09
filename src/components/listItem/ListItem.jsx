@@ -12,6 +12,7 @@ const ListItem = ({
   checked,
   toggleCheckedItem,
   toggleImportantItem,
+  toggleEditingMode,
 }) => {
   const itemStyle = checked ? "list-item checked" : "list-item";
 
@@ -20,7 +21,7 @@ const ListItem = ({
       <div>
         <CheckBtn toggleCheckedItem={toggleCheckedItem} elemId={id} />
       </div>
-      <p>{text}</p>
+      <p onClick={() => toggleEditingMode(id)}>{text}</p>
       <div className="list-item__right">
         <ImportantBtn
           important={important}

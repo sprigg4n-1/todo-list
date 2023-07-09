@@ -4,3 +4,17 @@
   padding: 25px;
   background-color: var(--gray);
 }
+
+.editing.closed {
+  display: none;
+}
+
+.editing__title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--blue);
+  margin-bottom: 30px;
+}

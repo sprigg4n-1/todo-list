@@ -1,11 +1,10 @@
-import React from "react";
+import { MdDoneOutline } from "react-icons/md";
 
 const CheckBtn = ({ toggleCheckedItem, elemId }) => {
   return (
-    <button
-      className="check-btn"
-      onClick={() => toggleCheckedItem(elemId)}
-    ></button>
+    <button className="check-btn" onClick={() => toggleCheckedItem(elemId)}>
+      <MdDoneOutline className="check-btn-checked-icon" />
+    </button>
   );
 };
 
