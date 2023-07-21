@@ -13,7 +13,7 @@ const CheckedList = ({
 }) => {
   return (
     <div className="tasks-box">
-      <div className="tasks__top">
+      <div className="tasks__top blue">
         {activeMenu ? (
           icon
         ) : (

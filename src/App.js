@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import { EditingItem, Header, Sidebar } from "./components";
+import { Header, Sidebar } from "./components";
 
 import { FaRegStar } from "react-icons/fa";
 import { GoSun } from "react-icons/go";
@@ -12,6 +12,8 @@ import MydayList from "./pages/MydayList";
 import CheckedList from "./pages/CheckedList";
 import ImportantList from "./pages/ImportantList";
 import OverdueList from "./pages/OverdueList";
+
+import format from 'date-fns/format'
 
 import "./App.css";
 
@@ -103,6 +105,7 @@ function App() {
           text: text,
           checked: false,
           important: false,
+          createdDate: format(new Date(), 'MM/dd/yyyy'),
           dueDate: "",
           completedInTime: true,
           editing: false,
@@ -131,7 +134,7 @@ function App() {
         };
       }
 
-      return { ...item, editing: false };
+      return { ...item };
     });
 
     setTodoItems(updatedItems);
@@ -239,7 +242,21 @@ function App() {
   }
 
   /**
-   * use state and function for reserved place to editing
+   * close editing mode
+   */
+  function closeEditingMode() {
+    const updatedItems = todoItems.map(item => {
+      return {
+        ...item,
+        editing: false,
+      };
+    })
+
+    setTodoItems(updatedItems);
+  }
+
+  /**
+   *function for reserved place to editing
    */
   function checkActiveEditng() {
     let isAllNotActive = true;
@@ -298,6 +315,7 @@ function App() {
                   toggleImportantItem={toggleImportantItem}
                   toggleEditingItem={toggleEditingItem}
                   changeItemText={changeItemText}
+                  closeEditingMode={closeEditingMode}
                 />
               }
             />
@@ -315,6 +333,7 @@ function App() {
                   toggleImportantItem={toggleImportantItem}
                   toggleEditingItem={toggleEditingItem}
                   changeItemText={changeItemText}
+                  closeEditingMode={closeEditingMode}
                 />
               }
             />
@@ -347,6 +366,7 @@ function App() {
                   toggleImportantItem={toggleImportantItem}
                   toggleEditingItem={toggleEditingItem}
                   changeItemText={changeItemText}
+                  closeEditingMode={closeEditingMode}
                 />
               }
             />

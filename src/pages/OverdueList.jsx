@@ -12,10 +12,11 @@ const OverdueList = ({
   toggleImportantItem,
   toggleEditingItem,
   changeItemText,
+  closeEditingMode
 }) => {
   return (
     <div className="tasks-box">
-      <div className="tasks__top">
+      <div className="tasks__top red">
         {activeMenu ? (
           icon
         ) : (
@@ -35,6 +36,7 @@ const OverdueList = ({
               toggleImportantItem={toggleImportantItem}
               toggleEditingItem={toggleEditingItem}
               changeItemText={changeItemText}
+              closeEditingMode={closeEditingMode}
             />
           ) : null;
         })}

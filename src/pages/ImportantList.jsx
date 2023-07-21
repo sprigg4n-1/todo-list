@@ -12,10 +12,11 @@ const ImportantList = ({
   toggleImportantItem,
   toggleEditingItem,
   changeItemText,
+  closeEditingMode
 }) => {
   return (
     <div className="tasks-box">
-      <div className="tasks__top">
+      <div className="tasks__top blue">
         {activeMenu ? (
           icon
         ) : (
@@ -35,6 +36,7 @@ const ImportantList = ({
               toggleImportantItem={toggleImportantItem}
               toggleEditingItem={toggleEditingItem}
               changeItemText={changeItemText}
+              closeEditingMode={closeEditingMode}
             />
           ) : null;
         })}

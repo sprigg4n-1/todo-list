@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import EditingItem from "../editingItem/EditingItem";
 import CheckBtn from "./btns/CheckBtn";
 import DeleteBtn from "./btns/DeleteBtn";
@@ -14,10 +12,12 @@ const ListItem = ({
   important,
   checked,
   editing,
+  createdDate,
   toggleCheckedItem,
   toggleImportantItem,
   toggleEditingItem,
   changeItemText,
+  closeEditingMode
 }) => {
   const itemStyle = checked ? "list-item checked" : "list-item";
 
@@ -44,7 +44,10 @@ const ListItem = ({
         toggleImportantItem={toggleImportantItem}
         important={important}
         elemId={id}
+        createdDate={createdDate}
         changeItemText={changeItemText}
+        closeEditingMode={closeEditingMode}
+        removeTodoItem={removeTodoItem}
       />
     </>
   );

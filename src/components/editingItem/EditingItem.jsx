@@ -1,20 +1,25 @@
 import { FaRegEdit } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 
 import CheckBtn from "../listItem/btns/CheckBtn";
 import ImportantBtn from "../listItem/btns/ImportantBtn";
+import DeleteBtn from "../listItem/btns/DeleteBtn";
 
 import "./editingItem.css";
 import { useState } from "react";
+import { format } from "date-fns";
 
 const EditingItem = ({
   activeEditing,
   text,
   elemId,
   important,
+  createdDate,
   removeTodoItem,
   toggleCheckedItem,
   toggleImportantItem,
   changeItemText,
+  closeEditingMode
 }) => {
   const editingStyle = activeEditing ? "editing" : "editing closed";
 
@@ -28,10 +33,16 @@ const EditingItem = ({
 
   return (
     <div className={editingStyle}>
-      <div className="editing__title">
-        <FaRegEdit />
-        <span>Editing task</span>
+      <div className="editing__top">
+        <div className="editing__title">
+          <FaRegEdit />
+          <span>Editing task</span>
+        </div>
+        <div className="editing__close" onClick={closeEditingMode}>
+          <AiOutlineClose />
+        </div>
       </div>
+
       <div className="editing__inner">
         <div className="editing__info">
           <CheckBtn toggleCheckedItem={toggleCheckedItem} elemId={elemId} />
@@ -48,6 +59,15 @@ const EditingItem = ({
               elemId={elemId}
             />
           </div>
+        </div>
+      </div>
+
+      <div className="editing__bottom">
+        <p>
+          Created {createdDate === format(new Date(), "MM/dd/yyyy") ? "today" : createdDate}
+        </p>
+        <div className="editing__delete">
+          <DeleteBtn removeTodoItem={removeTodoItem} elemId={elemId} />
         </div>
       </div>
     </div>

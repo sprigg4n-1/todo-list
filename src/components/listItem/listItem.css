@@ -2,7 +2,7 @@
   display: flex;
   background-color: var(--primary-gray);
   border-radius: 4px;
-  padding: 15px 15px;
+  padding: 0 15px;
   align-items: center;
   gap: 20px;
 }
@@ -13,6 +13,7 @@
 
 .list-item p {
   cursor: pointer;
+  padding: 15px 0;
   flex: 1;
   word-break: break-all;
 }

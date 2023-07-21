@@ -4,6 +4,7 @@
   --primary-gray: #252423;
   --black: #1b1a19;
   --primary-black: #11100f;
+  --red: rgb(255, 126, 126);
 }
 
 *,
@@ -59,6 +60,14 @@ button {
   margin-bottom: 30px;
   align-items: center;
   font-size: 25px;
+}
+
+.tasks__top.blue {
+  color: var(--blue);
+}
+
+.tasks__top.red {
+  color: var(--red);
 }
 
 .tasks__top-icon {
