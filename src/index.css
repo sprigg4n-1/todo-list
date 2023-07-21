@@ -70,3 +70,9 @@ button {
 .tasks__top-icon:hover {
   color: var(--blue);
 }
+
+/* for editing */
+.reserved-space-for-editing {
+  min-height: calc(100vh - 55px);
+  width: 360px;
+}

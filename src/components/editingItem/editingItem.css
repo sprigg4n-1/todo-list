@@ -1,8 +1,11 @@
 .editing {
   min-height: calc(100vh - 55px);
-  width: 300px;
-  padding: 25px;
-  background-color: var(--gray);
+  width: 360px;
+  padding: 25px 15px;
+  background-color: var(--primary-gray);
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .editing.closed {
@@ -13,8 +16,30 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   color: var(--blue);
   margin-bottom: 30px;
+}
+
+.editing__info {
+  display: flex;
+  align-items: center;
+  background-color: var(--gray);
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.editing__info-input {
+  flex: 1;
+  background-color: transparent;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  color: var(--blue);
+}
+
+.editing__info-important {
+  margin-left: auto;
 }

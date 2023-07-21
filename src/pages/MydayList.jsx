@@ -13,7 +13,8 @@ const MydayList = ({
   removeTodoItem,
   toggleCheckedItem,
   toggleImportantItem,
-  toggleEditingMode,
+  toggleEditingItem,
+  changeItemText,
 }) => {
   return (
     <div className="tasks-box">
@@ -38,7 +39,8 @@ const MydayList = ({
               removeTodoItem={removeTodoItem}
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}
-              toggleEditingMode={toggleEditingMode}
+              toggleEditingItem={toggleEditingItem}
+              changeItemText={changeItemText}
             />
           ) : null;
         })}

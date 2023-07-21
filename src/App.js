@@ -16,7 +16,11 @@ import OverdueList from "./pages/OverdueList";
 import "./App.css";
 
 function App() {
-  // sidebar items
+  // ------------------ use states ------------------------ //
+
+  /**
+   * array of sidebar items
+   * */
   const [sidebarItems, setSidebarItems] = useState([
     {
       icon: <GoSun />,
@@ -48,16 +52,14 @@ function App() {
     },
   ]);
 
-  // sidebar menu
+  /**
+   * sidebar menu state
+   * */
   const [activeMenu, setActiveMenu] = useState(true);
 
-  // element for editing
-  const [currentItemEdit, setCurrentItemEdit] = useState([]);
-
-  // Editing mode
-  const [activeEditing, setActiveEditing] = useState(false);
-
-  // todo list item
+  /**
+   * array of todo items
+   * */
   const [todoItems, setTodoItems] = useState(() => {
     const localValue = localStorage.getItem("ITEMS");
 
@@ -66,10 +68,14 @@ function App() {
     return JSON.parse(localValue);
   });
 
-  // searched item
+  /**
+   * searched item
+   * */
   const [searchedItem, setSearchedItem] = useState("");
 
-  // filtered data in todoItems
+  /**
+   * filtered data in todoItems
+   * */
   const filteredData = todoItems.filter((item) => {
     if (searchedItem === "") {
       return item;
@@ -78,12 +84,16 @@ function App() {
     }
   });
 
-  // set todoItems to local storag
-  useEffect(() => {
-    localStorage.setItem("ITEMS", JSON.stringify(todoItems));
-  }, [todoItems]);
+  /**
+   * use state and function for reserved place to editing
+   */
+  const [activeReservedPlace, setActiveReservedPlace] = useState(false);
 
-  // add to todoItems some item
+  // ------------------ functions ------------------------ //
+
+  /**
+   * add to todoItems some item
+   * */
   function addTodoItem(text) {
     setTodoItems((currentTodoItems) => {
       return [
@@ -95,34 +105,41 @@ function App() {
           important: false,
           dueDate: "",
           completedInTime: true,
+          editing: false,
         },
       ];
     });
   }
 
-  // remove item from todo list
+  /**
+   * remove item from todo list
+   * */
   function removeTodoItem(id) {
     setTodoItems(todoItems.filter((item) => item.id !== id));
-    setActiveEditing(false);
   }
 
-  // toggle check item status
+  /**
+   * toggle check item status
+   * */
   function toggleCheckedItem(id) {
     const updatedItems = todoItems.map((item) => {
       if (item.id === id) {
         return {
           ...item,
           checked: !item.checked,
+          editing: false,
         };
       }
 
-      return item;
+      return { ...item, editing: false };
     });
 
     setTodoItems(updatedItems);
   }
 
-  // toggle important item status
+  /**
+   * toggle important item status
+   * */
   function toggleImportantItem(id) {
     const updatedItems = todoItems.map((item) => {
       if (item.id === id) {
@@ -138,10 +155,28 @@ function App() {
     setTodoItems(updatedItems);
   }
 
-  // function for toggle sidebar item and change page
-  function toggleActiveSidebarItem(id) {
-    setActiveEditing(false);
+  /**
+   * change item text
+   * */
+  function changeItemText(id, newValue) {
+    const updatedItems = todoItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          text: newValue,
+        };
+      }
 
+      return item;
+    });
+
+    setTodoItems(updatedItems);
+  }
+
+  /**
+   * function for toggle sidebar item and change page
+   * */
+  function toggleActiveSidebarItem(id) {
     setSidebarItems((currentSidebarItem) => {
       return currentSidebarItem.map((item) => {
         if (item.id === id) {
@@ -157,32 +192,89 @@ function App() {
         };
       });
     });
+
+    const updatedItems = todoItems.map((item) => {
+      return {
+        ...item,
+        editing: false,
+      };
+    });
+
+    setTodoItems(updatedItems);
   }
 
-  // open sidebar menu
+  /**
+   * open sidebar menu
+   * */
   function openSidebar() {
     setActiveMenu(true);
   }
 
-  // close sidebar menu
+  /**
+   * close sidebar menu
+   * */
   function closeSidebar() {
     setActiveMenu(false);
   }
 
-  // toggle editing mode
-  function toggleEditingMode(id) {
-    setActiveEditing((activeEditing) => !activeEditing);
+  /**
+   * check if editing item id same
+   * */
+  function toggleEditingItem(id) {
+    const updatedItems = todoItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          editing: !item.editing,
+        };
+      }
 
-    if (activeEditing) {
-      const itemForEditing = todoItems.filter((item) => item.id === id);
-      setCurrentItemEdit(itemForEditing);
-    }
+      return {
+        ...item,
+        editing: false,
+      };
+    });
+
+    setTodoItems(updatedItems);
   }
+
+  /**
+   * use state and function for reserved place to editing
+   */
+  function checkActiveEditng() {
+    let isAllNotActive = true;
+
+    todoItems.forEach((item) => {
+      if (item.editing === true) {
+        isAllNotActive = false;
+      }
+    });
+
+    isAllNotActive
+      ? setActiveReservedPlace(false)
+      : setActiveReservedPlace(true);
+  }
+
+  // ------------------ use effects ------------------------ //
+
+  /**
+   * set todoItems to local storage
+   * */
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todoItems));
+  }, [todoItems]);
+
+  /**
+   * looking for todo
+   * */
+  useEffect(() => {
+    checkActiveEditng();
+  }, [todoItems]);
 
   return (
     <BrowserRouter>
       <div className="app">
-        <Header />
+        <Header setSearchedItem={setSearchedItem} />
         <div className="content">
           <Sidebar
             items={sidebarItems}
@@ -204,7 +296,8 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
-                  toggleEditingMode={toggleEditingMode}
+                  toggleEditingItem={toggleEditingItem}
+                  changeItemText={changeItemText}
                 />
               }
             />
@@ -220,7 +313,8 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
-                  toggleEditingMode={toggleEditingMode}
+                  toggleEditingItem={toggleEditingItem}
+                  changeItemText={changeItemText}
                 />
               }
             />
@@ -251,18 +345,15 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
-                  toggleEditingMode={toggleEditingMode}
+                  toggleEditingItem={toggleEditingItem}
+                  changeItemText={changeItemText}
                 />
               }
             />
           </Routes>
-          <EditingItem
-            activeEditing={activeEditing}
-            text={currentItemEdit[0]?.text}
-            elemId={currentItemEdit[0]?.id}
-            important={currentItemEdit[0]?.important}
-            removeTodoItem={removeTodoItem}
-          />
+          {activeReservedPlace ? (
+            <div className="reserved-space-for-editing"></div>
+          ) : null}
         </div>
       </div>
     </BrowserRouter>
