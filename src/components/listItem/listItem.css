@@ -2,7 +2,7 @@
   display: flex;
   background-color: var(--primary-gray);
   border-radius: 4px;
-  padding: 0 15px;
+  padding: 5px 15px;
   align-items: center;
   gap: 20px;
   width: calc(100% - 20px);
@@ -12,11 +12,21 @@
   background-color: var(--gray);
 }
 
-.list-item p {
-  cursor: pointer;
-  padding: 15px 0;
+.list-item__text {
+  padding: 5px 0;
   flex: 1;
+  cursor: pointer;
+}
+
+.list-item__text p {
+  margin-bottom: 5px;
   word-break: break-all;
+}
+
+.list-item__text span {
+  font-size: 12px;
+  color: var(--blue);
+  font-weight: 300;
 }
 
 .list-item__right {

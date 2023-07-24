@@ -10,7 +10,7 @@ const CheckedList = ({
   removeTodoItem,
   toggleCheckedItem,
   toggleImportantItem,
-  changeItemText
+  changeItemText,
 }) => {
   return (
     <div className="tasks-box">

@@ -10,7 +10,8 @@ import ImportantBtn from "../listItem/btns/ImportantBtn";
 import DeleteBtn from "../listItem/btns/DeleteBtn";
 
 import "./editingItem.css";
-import { format } from "date-fns";
+import { format, getDate } from "date-fns";
+import { useEffect, useRef } from "react";
 
 const EditingItem = ({
   activeEditing,
@@ -22,9 +23,46 @@ const EditingItem = ({
   toggleImportantItem,
   closeEditingMode,
   writeNewText,
-  newText
+  newText,
+  toggleDatePick,
+  activeDatePick,
+  setActiveDatePick,
+  changeItemDueDate,
 }) => {
+  /**
+   * style for editing mode and for date pick element
+   */
   const editingStyle = activeEditing ? "editing" : "editing closed";
+  const datePickStyle = activeDatePick
+    ? "editing__date-element"
+    : "editing__date-element hide";
+
+  // ref for date pick element
+  const refDate = useRef(null);
+
+  /**
+   * functions for closing date pick element
+   * when click outside element and press key esc
+   */
+  const hideOnClickOutside = (e) => {
+    if (refDate.current && !refDate.current.contains(e.target)) {
+      setActiveDatePick(false);
+    }
+  };
+
+  const hideOnPressEsc = (e) => {
+    if (e.key === "Escape") {
+      setActiveDatePick(false);
+    }
+  };
+
+  /**
+   * when app start loading functions
+   */
+  useEffect(() => {
+    document.addEventListener("click", hideOnClickOutside, true);
+    document.addEventListener("keydown", hideOnPressEsc, true);
+  }, []);
 
   return (
     <div className={editingStyle}>
@@ -56,17 +94,37 @@ const EditingItem = ({
           </div>
         </div>
         <div className="editing__date">
-          <div className="editing__date-pick">
+          <div className="editing__date-pick" onClick={toggleDatePick}>
             <BsCalendar3 />
             <p>Add due date</p>
           </div>
 
-          <div className="editing__date-element">
+          <div className={datePickStyle} ref={refDate}>
             <h3>Due</h3>
             <ul>
-              <li><TbCalendarDown /> <span>Today</span></li>
-              <li><TbCalendarShare /> <span>Tomorrow</span></li>
-              <li><TbCalendarPlus /> <span>Pick a date</span></li>
+              <li
+                onClick={() => {
+                  changeItemDueDate(elemId, format(new Date(), "MM/dd/yyyy"));
+                }}
+              >
+                <TbCalendarDown /> <span>Today</span>
+              </li>
+              <li
+                onClick={() => {
+                  changeItemDueDate(
+                    elemId,
+                    format(
+                      new Date().setDate(new Date().getDate() + 1),
+                      "MM/dd/yyyy"
+                    )
+                  );
+                }}
+              >
+                <TbCalendarShare /> <span>Tomorrow</span>
+              </li>
+              <li>
+                <TbCalendarPlus /> <span>Pick a date</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -74,13 +132,16 @@ const EditingItem = ({
 
       <div className="editing__bottom">
         <p>
-          Created {createdDate === format(new Date(), "MM/dd/yyyy") ? "today" : createdDate}
+          Created{" "}
+          {createdDate === format(new Date(), "MM/dd/yyyy")
+            ? "today"
+            : createdDate}
         </p>
         <div className="editing__delete">
           <DeleteBtn removeTodoItem={removeTodoItem} elemId={elemId} />
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

@@ -13,7 +13,7 @@ import CheckedList from "./pages/CheckedList";
 import ImportantList from "./pages/ImportantList";
 import OverdueList from "./pages/OverdueList";
 
-import format from 'date-fns/format'
+import format from "date-fns/format";
 
 import "./App.css";
 
@@ -98,38 +98,36 @@ function App() {
    * */
   function addTodoItem(text, isImportant) {
     isImportant
-      ?
-      setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: true,
-            createdDate: format(new Date(), 'MM/dd/yyyy'),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      })
-      :
-      setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: false,
-            createdDate: format(new Date(), 'MM/dd/yyyy'),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      })
+      ? setTodoItems((currentTodoItems) => {
+          return [
+            ...currentTodoItems,
+            {
+              id: crypto.randomUUID(),
+              text: text,
+              checked: false,
+              important: true,
+              createdDate: format(new Date(), "MM/dd/yyyy"),
+              dueDate: "",
+              completedInTime: true,
+              editing: false,
+            },
+          ];
+        })
+      : setTodoItems((currentTodoItems) => {
+          return [
+            ...currentTodoItems,
+            {
+              id: crypto.randomUUID(),
+              text: text,
+              checked: false,
+              important: false,
+              createdDate: format(new Date(), "MM/dd/yyyy"),
+              dueDate: "",
+              completedInTime: true,
+              editing: false,
+            },
+          ];
+        });
   }
 
   /**
@@ -185,6 +183,24 @@ function App() {
         return {
           ...item,
           text: newValue,
+        };
+      }
+
+      return item;
+    });
+
+    setTodoItems(updatedItems);
+  }
+
+  /**
+   * function for set due date
+   */
+  function changeItemDueDate(id, newDate) {
+    const updatedItems = todoItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          dueDate: newDate,
         };
       }
 
@@ -263,12 +279,12 @@ function App() {
    * close editing mode
    */
   function closeEditingMode() {
-    const updatedItems = todoItems.map(item => {
+    const updatedItems = todoItems.map((item) => {
       return {
         ...item,
         editing: false,
       };
-    })
+    });
 
     setTodoItems(updatedItems);
   }
@@ -334,6 +350,7 @@ function App() {
                   toggleEditingItem={toggleEditingItem}
                   changeItemText={changeItemText}
                   closeEditingMode={closeEditingMode}
+                  changeItemDueDate={changeItemDueDate}
                 />
               }
             />
@@ -353,6 +370,7 @@ function App() {
                   changeItemText={changeItemText}
                   closeEditingMode={closeEditingMode}
                   addTodoItem={addTodoItem}
+                  changeItemDueDate={changeItemDueDate}
                 />
               }
             />
@@ -387,6 +405,7 @@ function App() {
                   toggleEditingItem={toggleEditingItem}
                   changeItemText={changeItemText}
                   closeEditingMode={closeEditingMode}
+                  changeItemDueDate={changeItemDueDate}
                 />
               }
             />

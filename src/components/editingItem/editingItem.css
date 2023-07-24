@@ -95,6 +95,10 @@
   background-color: var(--gray);
 }
 
+.editing__date-element.hide {
+  display: none;
+}
+
 .editing__date-element h3 {
   text-align: center;
   padding: 10px 0;

@@ -15,7 +15,8 @@ const MydayList = ({
   toggleImportantItem,
   toggleEditingItem,
   changeItemText,
-  closeEditingMode
+  closeEditingMode,
+  changeItemDueDate,
 }) => {
   return (
     <div className="tasks-box">
@@ -44,11 +45,11 @@ const MydayList = ({
               toggleEditingItem={toggleEditingItem}
               changeItemText={changeItemText}
               closeEditingMode={closeEditingMode}
+              changeItemDueDate={changeItemDueDate}
             />
           ) : null;
         })}
       </ul>
-
     </div>
   );
 };

@@ -15,7 +15,8 @@ const ImportantList = ({
   toggleEditingItem,
   changeItemText,
   closeEditingMode,
-  addTodoItem
+  addTodoItem,
+  changeItemDueDate,
 }) => {
   return (
     <div className="tasks-box">
@@ -44,6 +45,7 @@ const ImportantList = ({
               toggleEditingItem={toggleEditingItem}
               changeItemText={changeItemText}
               closeEditingMode={closeEditingMode}
+              changeItemDueDate={changeItemDueDate}
             />
           ) : null;
         })}
