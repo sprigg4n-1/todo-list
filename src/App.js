@@ -15,7 +15,10 @@ import OverdueList from "./pages/OverdueList";
 
 import format from "date-fns/format";
 
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import "./App.css";
+
 
 function App() {
   // ------------------ use states ------------------------ //
@@ -99,35 +102,35 @@ function App() {
   function addTodoItem(text, isImportant) {
     isImportant
       ? setTodoItems((currentTodoItems) => {
-          return [
-            ...currentTodoItems,
-            {
-              id: crypto.randomUUID(),
-              text: text,
-              checked: false,
-              important: true,
-              createdDate: format(new Date(), "MM/dd/yyyy"),
-              dueDate: "",
-              completedInTime: true,
-              editing: false,
-            },
-          ];
-        })
+        return [
+          ...currentTodoItems,
+          {
+            id: crypto.randomUUID(),
+            text: text,
+            checked: false,
+            important: true,
+            createdDate: format(new Date(), "MM/dd/yyyy"),
+            dueDate: "",
+            completedInTime: true,
+            editing: false,
+          },
+        ];
+      })
       : setTodoItems((currentTodoItems) => {
-          return [
-            ...currentTodoItems,
-            {
-              id: crypto.randomUUID(),
-              text: text,
-              checked: false,
-              important: false,
-              createdDate: format(new Date(), "MM/dd/yyyy"),
-              dueDate: "",
-              completedInTime: true,
-              editing: false,
-            },
-          ];
-        });
+        return [
+          ...currentTodoItems,
+          {
+            id: crypto.randomUUID(),
+            text: text,
+            checked: false,
+            important: false,
+            createdDate: format(new Date(), "MM/dd/yyyy"),
+            dueDate: "",
+            completedInTime: true,
+            editing: false,
+          },
+        ];
+      });
   }
 
   /**
@@ -216,6 +219,13 @@ function App() {
   function changeOnTrueItemCompletedInTime(id) {
     const updatedItems = todoItems.map((item) => {
       if (item.id === id) {
+        if (!item.completedInTime) {
+          return {
+            ...item,
+            completedInTime: true,
+            editing: false
+          };
+        }
         return {
           ...item,
           completedInTime: true,
@@ -231,9 +241,16 @@ function App() {
   function changeOnFalseItemCompletedInTime(id) {
     const updatedItems = todoItems.map((item) => {
       if (item.id === id) {
+        if (!item.completedInTime) {
+          return {
+            ...item,
+            completedInTime: false,
+          };
+        }
         return {
           ...item,
           completedInTime: false,
+          editing: false,
         };
       }
 

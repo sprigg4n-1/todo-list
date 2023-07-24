@@ -126,6 +126,13 @@
   color: var(--blue);
 }
 
+.editing__calendar {
+  z-index: 1001;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .editing__bottom {
   border-top: 2px solid var(--gray);
   padding: 10px 15px 0;
