@@ -15,10 +15,9 @@ import OverdueList from "./pages/OverdueList";
 
 import format from "date-fns/format";
 
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 import "./App.css";
-
 
 function App() {
   // ------------------ use states ------------------------ //
@@ -102,35 +101,35 @@ function App() {
   function addTodoItem(text, isImportant) {
     isImportant
       ? setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: true,
-            createdDate: format(new Date(), "MM/dd/yyyy"),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      })
+          return [
+            ...currentTodoItems,
+            {
+              id: crypto.randomUUID(),
+              text: text,
+              checked: false,
+              important: true,
+              createdDate: format(new Date(), "MM/dd/yyyy"),
+              dueDate: "",
+              completedInTime: true,
+              editing: false,
+            },
+          ];
+        })
       : setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: false,
-            createdDate: format(new Date(), "MM/dd/yyyy"),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      });
+          return [
+            ...currentTodoItems,
+            {
+              id: crypto.randomUUID(),
+              text: text,
+              checked: false,
+              important: false,
+              createdDate: format(new Date(), "MM/dd/yyyy"),
+              dueDate: "",
+              completedInTime: true,
+              editing: false,
+            },
+          ];
+        });
   }
 
   /**
@@ -223,7 +222,7 @@ function App() {
           return {
             ...item,
             completedInTime: true,
-            editing: false
+            editing: false,
           };
         }
         return {
@@ -449,6 +448,12 @@ function App() {
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
                   changeItemText={changeItemText}
+                  changeOnTrueItemCompletedInTime={
+                    changeOnTrueItemCompletedInTime
+                  }
+                  changeOnFalseItemCompletedInTime={
+                    changeOnFalseItemCompletedInTime
+                  }
                 />
               }
             />

@@ -11,6 +11,8 @@ const CheckedList = ({
   toggleCheckedItem,
   toggleImportantItem,
   changeItemText,
+  changeOnTrueItemCompletedInTime,
+  changeOnFalseItemCompletedInTime,
 }) => {
   return (
     <div className="tasks-box">
@@ -34,6 +36,10 @@ const CheckedList = ({
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}
               changeItemText={changeItemText}
+              changeOnTrueItemCompletedInTime={changeOnTrueItemCompletedInTime}
+              changeOnFalseItemCompletedInTime={
+                changeOnFalseItemCompletedInTime
+              }
             />
           ) : null;
         })}
