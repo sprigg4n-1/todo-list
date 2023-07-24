@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.list-item__text.overdue span {
+  color: var(--red);
+}
+
 .list-item__text p {
   margin-bottom: 5px;
   word-break: break-all;

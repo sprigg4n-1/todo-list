@@ -29,6 +29,11 @@ const ListItem = ({
    */
   const itemStyle = checked ? "list-item checked" : "list-item";
 
+  const dueDateStyle =
+    dueDate < format(new Date(), "MM/dd/yyyy")
+      ? "list-item__text overdue"
+      : "list-item__text";
+
   /**
    * state for change text in item
    */
@@ -75,7 +80,7 @@ const ListItem = ({
         <div>
           <CheckBtn toggleCheckedItem={toggleCheckedItem} elemId={id} />
         </div>
-        <div className="list-item__text" onClick={() => toggleEditingItem(id)}>
+        <div className={dueDateStyle} onClick={() => toggleEditingItem(id)}>
           <p>{text}</p>
           <span>
             {dueDate === ""
