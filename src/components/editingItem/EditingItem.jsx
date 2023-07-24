@@ -25,9 +25,9 @@ const EditingItem = ({
   writeNewText,
   newText,
   toggleDatePick,
-  activeDatePick,
   setActiveDatePick,
   changeItemDueDate,
+  activeDatePick,
 }) => {
   /**
    * style for editing mode and for date pick element

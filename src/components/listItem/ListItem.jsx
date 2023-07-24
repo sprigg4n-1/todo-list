@@ -23,16 +23,18 @@ const ListItem = ({
   changeItemText,
   closeEditingMode,
   changeItemDueDate,
+  completedInTime,
+  changeOnTrueItemCompletedInTime,
+  changeOnFalseItemCompletedInTime,
 }) => {
   /**
    * Style for list item
    */
   const itemStyle = checked ? "list-item checked" : "list-item";
 
-  const dueDateStyle =
-    dueDate < format(new Date(), "MM/dd/yyyy")
-      ? "list-item__text overdue"
-      : "list-item__text";
+  const dueDateStyle = completedInTime
+    ? "list-item__text"
+    : "list-item__text overdue";
 
   /**
    * state for change text in item
@@ -73,6 +75,23 @@ const ListItem = ({
   useEffect(() => {
     setActiveDatePick(false);
   }, [editing]);
+
+  /**
+   * use effect watch for due date to know
+   * task overdue or not
+   */
+  useEffect(() => {
+    if (dueDate === "") {
+      console.log("true");
+      changeOnTrueItemCompletedInTime(id);
+    } else if (dueDate >= format(new Date(), "MM/dd/yyy")) {
+      console.log("true");
+      changeOnTrueItemCompletedInTime(id);
+    } else if (dueDate < format(new Date(), "MM/dd/yyy")) {
+      console.log("false");
+      changeOnFalseItemCompletedInTime(id);
+    }
+  }, [dueDate]);
 
   return (
     <>
@@ -123,6 +142,7 @@ const ListItem = ({
         activeDatePick={activeDatePick}
         setActiveDatePick={setActiveDatePick}
         changeItemDueDate={changeItemDueDate}
+        completedInTime={completedInTime}
       />
     </>
   );

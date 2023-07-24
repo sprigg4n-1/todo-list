@@ -211,6 +211,39 @@ function App() {
   }
 
   /**
+   * function watch if overdue el
+   */
+  function changeOnTrueItemCompletedInTime(id) {
+    const updatedItems = todoItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completedInTime: true,
+        };
+      }
+
+      return item;
+    });
+
+    setTodoItems(updatedItems);
+  }
+
+  function changeOnFalseItemCompletedInTime(id) {
+    const updatedItems = todoItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completedInTime: false,
+        };
+      }
+
+      return item;
+    });
+
+    setTodoItems(updatedItems);
+  }
+
+  /**
    * function for toggle sidebar item and change page
    * */
   function toggleActiveSidebarItem(id) {
@@ -351,6 +384,12 @@ function App() {
                   changeItemText={changeItemText}
                   closeEditingMode={closeEditingMode}
                   changeItemDueDate={changeItemDueDate}
+                  changeOnTrueItemCompletedInTime={
+                    changeOnTrueItemCompletedInTime
+                  }
+                  changeOnFalseItemCompletedInTime={
+                    changeOnFalseItemCompletedInTime
+                  }
                 />
               }
             />
@@ -371,6 +410,12 @@ function App() {
                   closeEditingMode={closeEditingMode}
                   addTodoItem={addTodoItem}
                   changeItemDueDate={changeItemDueDate}
+                  changeOnTrueItemCompletedInTime={
+                    changeOnTrueItemCompletedInTime
+                  }
+                  changeOnFalseItemCompletedInTime={
+                    changeOnFalseItemCompletedInTime
+                  }
                 />
               }
             />
@@ -406,6 +451,12 @@ function App() {
                   changeItemText={changeItemText}
                   closeEditingMode={closeEditingMode}
                   changeItemDueDate={changeItemDueDate}
+                  changeOnTrueItemCompletedInTime={
+                    changeOnTrueItemCompletedInTime
+                  }
+                  changeOnFalseItemCompletedInTime={
+                    changeOnFalseItemCompletedInTime
+                  }
                 />
               }
             />

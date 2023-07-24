@@ -17,6 +17,8 @@ const MydayList = ({
   changeItemText,
   closeEditingMode,
   changeItemDueDate,
+  changeOnTrueItemCompletedInTime,
+  changeOnFalseItemCompletedInTime,
 }) => {
   return (
     <div className="tasks-box">
@@ -46,6 +48,10 @@ const MydayList = ({
               changeItemText={changeItemText}
               closeEditingMode={closeEditingMode}
               changeItemDueDate={changeItemDueDate}
+              changeOnTrueItemCompletedInTime={changeOnTrueItemCompletedInTime}
+              changeOnFalseItemCompletedInTime={
+                changeOnFalseItemCompletedInTime
+              }
             />
           ) : null;
         })}
