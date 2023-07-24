@@ -30,13 +30,14 @@ const MydayList = ({
         <h2>{title}</h2>
       </div>
 
-      <AddItemForm addTodoItem={addTodoItem} />
+      <AddItemForm addTodoItem={addTodoItem} isImportant={false} />
 
       <ul className="tasks__list">
         {todoItems.map((item) => {
           return !item.checked && item.completedInTime ? (
             <ListItem
               {...item}
+              key={item.id}
               removeTodoItem={removeTodoItem}
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}
@@ -47,6 +48,7 @@ const MydayList = ({
           ) : null;
         })}
       </ul>
+
     </div>
   );
 };

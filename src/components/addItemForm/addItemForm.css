@@ -1,5 +1,6 @@
 .add-item-form {
   display: flex;
+  width: calc(100% - 30px);
 }
 
 .add-item-form input {

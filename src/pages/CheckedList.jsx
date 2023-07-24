@@ -10,6 +10,7 @@ const CheckedList = ({
   removeTodoItem,
   toggleCheckedItem,
   toggleImportantItem,
+  changeItemText
 }) => {
   return (
     <div className="tasks-box">
@@ -23,14 +24,16 @@ const CheckedList = ({
         )}
         <h2>{title}</h2>
       </div>
-      <ul className="tasks__list">
+      <ul className="tasks__list tasks__list--bigger">
         {todoItems.map((item) => {
           return item.checked ? (
             <ListItem
               {...item}
+              key={item.id}
               removeTodoItem={removeTodoItem}
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}
+              changeItemText={changeItemText}
             />
           ) : null;
         })}

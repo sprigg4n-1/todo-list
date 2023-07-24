@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./addItemForm.css";
 
-const AddItemFrom = ({ addTodoItem }) => {
+const AddItemFrom = ({ addTodoItem, isImportant }) => {
   const [newItem, setNewItem] = useState("");
 
   // add new item
@@ -11,7 +11,7 @@ const AddItemFrom = ({ addTodoItem }) => {
 
     if (newItem === "" || newItem.length < 4) return;
 
-    addTodoItem(newItem);
+    addTodoItem(newItem, isImportant);
 
     setNewItem("");
   }

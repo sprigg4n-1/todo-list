@@ -33,6 +33,13 @@
 .editing__close {
   font-size: 22px;
   cursor: var(--red);
+  cursor: pointer;
+}
+
+.editing__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .editing__info {
@@ -49,12 +56,70 @@
   font-size: 18px;
   border: none;
   outline: none;
-  padding: 10px 15px;
+  padding: 15px 15px;
   color: var(--blue);
 }
 
 .editing__info-important {
   margin-left: auto;
+}
+
+.editing__date {
+  position: relative;
+}
+
+.editing__date-pick {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  font-size: 18px;
+  background-color: var(--gray);
+  cursor: pointer;
+  padding: 10px;
+  color: gray;
+  transition: all 0.2s;
+}
+
+.editing__date-pick:hover {
+  color: white;
+}
+
+.editing__date-element {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 45px;
+  color: white;
+  width: 200px;
+  background-color: var(--gray);
+}
+
+.editing__date-element h3 {
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid gray;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.editing__date-element ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.editing__date-element li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+
+.editing__date-element li:hover {
+  background-color: gray;
+  color: var(--blue);
 }
 
 .editing__bottom {

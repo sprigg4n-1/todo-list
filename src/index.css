@@ -7,6 +7,26 @@
   --red: rgb(255, 126, 126);
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--gray);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 *,
 *::after,
 *::before {
@@ -16,6 +36,7 @@
 }
 
 body {
+  overflow: hidden;
   background-color: var(--primary-black);
   color: #fff;
   font-size: 16px;
@@ -43,14 +64,21 @@ button {
 
 .tasks-box {
   flex: 1;
-  padding: 25px;
+  padding: 25px 0 25px 25px;
 }
 
 .tasks__list {
+  height: calc(100vh - 250px);
+  overflow: hidden;
+  overflow-y: scroll;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.tasks__list.tasks__list--bigger {
+  height: calc(100vh - 180px);
 }
 
 .tasks__top {

@@ -1,3 +1,5 @@
+import AddItemForm from "../components/addItemForm/AddItemForm";
+
 import { ListItem } from "../components";
 import { RxHamburgerMenu } from "react-icons/rx";
 
@@ -12,7 +14,8 @@ const ImportantList = ({
   toggleImportantItem,
   toggleEditingItem,
   changeItemText,
-  closeEditingMode
+  closeEditingMode,
+  addTodoItem
 }) => {
   return (
     <div className="tasks-box">
@@ -26,11 +29,15 @@ const ImportantList = ({
         )}
         <h2>{title}</h2>
       </div>
+
+      <AddItemForm addTodoItem={addTodoItem} isImportant={true} />
+
       <ul className="tasks__list">
         {todoItems.map((item) => {
           return !item.checked && item.completedInTime && item.important ? (
             <ListItem
               {...item}
+              key={item.id}
               removeTodoItem={removeTodoItem}
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}

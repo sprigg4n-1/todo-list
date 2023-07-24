@@ -96,22 +96,40 @@ function App() {
   /**
    * add to todoItems some item
    * */
-  function addTodoItem(text) {
-    setTodoItems((currentTodoItems) => {
-      return [
-        ...currentTodoItems,
-        {
-          id: crypto.randomUUID(),
-          text: text,
-          checked: false,
-          important: false,
-          createdDate: format(new Date(), 'MM/dd/yyyy'),
-          dueDate: "",
-          completedInTime: true,
-          editing: false,
-        },
-      ];
-    });
+  function addTodoItem(text, isImportant) {
+    isImportant
+      ?
+      setTodoItems((currentTodoItems) => {
+        return [
+          ...currentTodoItems,
+          {
+            id: crypto.randomUUID(),
+            text: text,
+            checked: false,
+            important: true,
+            createdDate: format(new Date(), 'MM/dd/yyyy'),
+            dueDate: "",
+            completedInTime: true,
+            editing: false,
+          },
+        ];
+      })
+      :
+      setTodoItems((currentTodoItems) => {
+        return [
+          ...currentTodoItems,
+          {
+            id: crypto.randomUUID(),
+            text: text,
+            checked: false,
+            important: false,
+            createdDate: format(new Date(), 'MM/dd/yyyy'),
+            dueDate: "",
+            completedInTime: true,
+            editing: false,
+          },
+        ];
+      })
   }
 
   /**
@@ -334,6 +352,7 @@ function App() {
                   toggleEditingItem={toggleEditingItem}
                   changeItemText={changeItemText}
                   closeEditingMode={closeEditingMode}
+                  addTodoItem={addTodoItem}
                 />
               }
             />
@@ -349,6 +368,7 @@ function App() {
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
+                  changeItemText={changeItemText}
                 />
               }
             />

@@ -26,11 +26,12 @@ const OverdueList = ({
         )}
         <h2>{title}</h2>
       </div>
-      <ul className="tasks__list">
+      <ul className="tasks__list tasks__list--bigger">
         {todoItems.map((item) => {
           return !item.completedInTime ? (
             <ListItem
               {...item}
+              key={item.id}
               removeTodoItem={removeTodoItem}
               toggleCheckedItem={toggleCheckedItem}
               toggleImportantItem={toggleImportantItem}

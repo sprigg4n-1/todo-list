@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import EditingItem from "../editingItem/EditingItem";
 import CheckBtn from "./btns/CheckBtn";
 import DeleteBtn from "./btns/DeleteBtn";
@@ -20,6 +22,16 @@ const ListItem = ({
   closeEditingMode
 }) => {
   const itemStyle = checked ? "list-item checked" : "list-item";
+
+  const [newText, setNewText] = useState(text);
+
+  function writeNewText(e) {
+    setNewText(e.target.value);
+  }
+
+  useEffect(() => {
+    changeItemText(id, newText);
+  }, [newText])
 
   return (
     <>
@@ -48,6 +60,8 @@ const ListItem = ({
         changeItemText={changeItemText}
         closeEditingMode={closeEditingMode}
         removeTodoItem={removeTodoItem}
+        newText={newText}
+        writeNewText={writeNewText}
       />
     </>
   );
