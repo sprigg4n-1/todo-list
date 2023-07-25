@@ -46,8 +46,8 @@ const EditingItem = ({
     dueDate === ""
       ? "editing__date-pick"
       : dueDate >= format(new Date(), "MM/dd/yyyy")
-      ? "editing__date-pick completed"
-      : "editing__date-pick overdue";
+        ? "editing__date-pick completed"
+        : "editing__date-pick overdue";
 
   // ref for date pick element
   const refDate = useRef(null);
@@ -118,14 +118,20 @@ const EditingItem = ({
               {dueDate === ""
                 ? "Add due date"
                 : dueDate === format(new Date(), "MM/dd/yyyy")
-                ? "Due: Today"
-                : dueDate ===
-                  format(
-                    new Date().setDate(new Date().getDate() + 1),
-                    "MM/dd/yyyy"
-                  )
-                ? "Due: Tomorrow"
-                : `Due: ${dueDate}`}
+                  ? "Due: Today"
+                  : dueDate ===
+                    format(
+                      new Date().setDate(new Date().getDate() + 1),
+                      "MM/dd/yyyy"
+                    )
+                    ? "Due: Tomorrow"
+                    : dueDate ===
+                      format(
+                        new Date().setDate(new Date().getDate() - 1),
+                        "MM/dd/yyyy"
+                      )
+                      ? "Due: Yesterday"
+                      : `Due: ${dueDate}`}
             </p>
           </div>
 
