@@ -112,27 +112,35 @@ const EditingItem = ({
           </div>
         </div>
         <div className="editing__date">
-          <div className={addDueDateStyle} onClick={toggleDatePick}>
-            <BsCalendar3 />
-            <p>
-              {dueDate === ""
-                ? "Add due date"
-                : dueDate === format(new Date(), "MM/dd/yyyy")
-                  ? "Due: Today"
-                  : dueDate ===
-                    format(
-                      new Date().setDate(new Date().getDate() + 1),
-                      "MM/dd/yyyy"
-                    )
-                    ? "Due: Tomorrow"
+          <div className="editing__date-pick-box">
+            <div className={addDueDateStyle} onClick={toggleDatePick}>
+              <BsCalendar3 />
+              <p>
+                {dueDate === ""
+                  ? "Add due date"
+                  : dueDate === format(new Date(), "MM/dd/yyyy")
+                    ? "Due: Today"
                     : dueDate ===
                       format(
-                        new Date().setDate(new Date().getDate() - 1),
+                        new Date().setDate(new Date().getDate() + 1),
                         "MM/dd/yyyy"
                       )
-                      ? "Due: Yesterday"
-                      : `Due: ${dueDate}`}
-            </p>
+                      ? "Due: Tomorrow"
+                      : dueDate ===
+                        format(
+                          new Date().setDate(new Date().getDate() - 1),
+                          "MM/dd/yyyy"
+                        )
+                        ? "Due: Yesterday"
+                        : `Due: ${dueDate}`}
+              </p>
+            </div>
+            {dueDate !== ""
+              ? <AiOutlineClose
+                onClick={() => changeItemDueDate(elemId, "")}
+                className="editing__clear-date" />
+              : null
+            }
           </div>
 
           <div className={datePickStyle} ref={refDate}>

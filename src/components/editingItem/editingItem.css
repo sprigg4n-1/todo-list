@@ -68,15 +68,35 @@
   position: relative;
 }
 
+.editing__date-pick-box {
+  display: flex;
+  background-color: var(--gray);
+  align-items: center;
+}
+
+.editing__clear-date {
+  margin-left: auto;
+  display: none;
+  color: white;
+  cursor: pointer;
+  padding-right: 10px;
+  height: 30px;
+  width: 30px;
+}
+
+.editing__date-pick-box:hover .editing__clear-date {
+  display: block;
+}
+
 .editing__date-pick {
   display: flex;
+  flex: 1;
   flex-direction: row;
   align-items: center;
   gap: 20px;
   font-size: 18px;
-  background-color: var(--gray);
-  cursor: pointer;
   padding: 10px;
+  cursor: pointer;
   color: gray;
   transition: all 0.2s;
 }
