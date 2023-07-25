@@ -83,8 +83,8 @@ function App() {
   const filteredData = todoItems.filter((item) => {
     if (searchedItem === "") {
       return item;
-    } else {
-      return item.text.includes(searchedItem);
+    } else if (item.text.toLowerCase().includes(searchedItem.toLowerCase())) {
+      return item;
     }
   });
 
@@ -101,35 +101,35 @@ function App() {
   function addTodoItem(text, isImportant) {
     isImportant
       ? setTodoItems((currentTodoItems) => {
-          return [
-            ...currentTodoItems,
-            {
-              id: crypto.randomUUID(),
-              text: text,
-              checked: false,
-              important: true,
-              createdDate: format(new Date(), "MM/dd/yyyy"),
-              dueDate: "",
-              completedInTime: true,
-              editing: false,
-            },
-          ];
-        })
+        return [
+          ...currentTodoItems,
+          {
+            id: crypto.randomUUID(),
+            text: text,
+            checked: false,
+            important: true,
+            createdDate: format(new Date(), "MM/dd/yyyy"),
+            dueDate: "",
+            completedInTime: true,
+            editing: false,
+          },
+        ];
+      })
       : setTodoItems((currentTodoItems) => {
-          return [
-            ...currentTodoItems,
-            {
-              id: crypto.randomUUID(),
-              text: text,
-              checked: false,
-              important: false,
-              createdDate: format(new Date(), "MM/dd/yyyy"),
-              dueDate: "",
-              completedInTime: true,
-              editing: false,
-            },
-          ];
-        });
+        return [
+          ...currentTodoItems,
+          {
+            id: crypto.randomUUID(),
+            text: text,
+            checked: false,
+            important: false,
+            createdDate: format(new Date(), "MM/dd/yyyy"),
+            dueDate: "",
+            completedInTime: true,
+            editing: false,
+          },
+        ];
+      });
   }
 
   /**
@@ -370,6 +370,20 @@ function App() {
   useEffect(() => {
     checkActiveEditng();
   }, [todoItems]);
+
+  /**
+   * looking for searched item
+   */
+  useEffect(() => {
+    if (searchedItem !== "") {
+      setTodoItems(todoItems => todoItems.map(item => {
+        return {
+          ...item,
+          editing: false
+        }
+      }))
+    }
+  }, [searchedItem])
 
   return (
     <BrowserRouter>
