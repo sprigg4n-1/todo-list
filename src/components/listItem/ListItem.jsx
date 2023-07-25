@@ -88,10 +88,10 @@ const ListItem = ({
       console.log("true");
       changeOnTrueItemCompletedInTime(id);
     } else if (dueDate < format(new Date(), "MM/dd/yyy")) {
-      console.log("false");
+      console.log(dueDate);
       changeOnFalseItemCompletedInTime(id);
     }
-  }, [dueDate]);
+  }, [dueDate, format(new Date(), "MM/dd/yyy")]);
 
   return (
     <>
@@ -105,14 +105,14 @@ const ListItem = ({
             {dueDate === ""
               ? null
               : dueDate === format(new Date(), "MM/dd/yyyy")
-              ? "Due: Today"
-              : dueDate ===
-                format(
-                  new Date().setDate(new Date().getDate() + 1),
-                  "MM/dd/yyyy"
-                )
-              ? "Due: Tomorrow"
-              : `Due: ${dueDate}`}
+                ? "Due: Today"
+                : dueDate ===
+                  format(
+                    new Date().setDate(new Date().getDate() + 1),
+                    "MM/dd/yyyy"
+                  )
+                  ? "Due: Tomorrow"
+                  : `Due: ${dueDate}`}
           </span>
         </div>
 
