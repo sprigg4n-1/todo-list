@@ -105,14 +105,14 @@ const ListItem = ({
             {dueDate === ""
               ? null
               : dueDate === format(new Date(), "MM/dd/yyyy")
-                ? "Due: Today"
-                : dueDate ===
-                  format(
-                    new Date().setDate(new Date().getDate() + 1),
-                    "MM/dd/yyyy"
-                  )
-                  ? "Due: Tomorrow"
-                  : `Due: ${dueDate}`}
+              ? "Due: Today"
+              : dueDate ===
+                format(
+                  new Date().setDate(new Date().getDate() + 1),
+                  "MM/dd/yyyy"
+                )
+              ? "Due: Tomorrow"
+              : `Due: ${dueDate}`}
           </span>
         </div>
 
@@ -143,6 +143,7 @@ const ListItem = ({
         setActiveDatePick={setActiveDatePick}
         changeItemDueDate={changeItemDueDate}
         completedInTime={completedInTime}
+        dueDate={dueDate}
       />
     </>
   );

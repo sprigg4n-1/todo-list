@@ -32,6 +32,7 @@ const EditingItem = ({
   setActiveDatePick,
   changeItemDueDate,
   activeDatePick,
+  dueDate,
 }) => {
   /**
    * style for editing mode and for date pick element
@@ -41,6 +42,13 @@ const EditingItem = ({
     ? "editing__date-element"
     : "editing__date-element hide";
 
+  const addDueDateStyle =
+    dueDate === ""
+      ? "editing__date-pick"
+      : dueDate >= format(new Date(), "MM/dd/yyyy")
+      ? "editing__date-pick completed"
+      : "editing__date-pick overdue";
+
   // ref for date pick element
   const refDate = useRef(null);
 
@@ -49,7 +57,7 @@ const EditingItem = ({
   const selectDueDate = (date) => {
     changeItemDueDate(elemId, format(date, "MM/dd/yyyy"));
     setOpenDatePicker(false);
-  }
+  };
   /**
    * functions for closing date pick element
    * when click outside element and press key esc
@@ -104,19 +112,34 @@ const EditingItem = ({
           </div>
         </div>
         <div className="editing__date">
-          <div className="editing__date-pick" onClick={toggleDatePick}>
+          <div className={addDueDateStyle} onClick={toggleDatePick}>
             <BsCalendar3 />
-            <p>Add due date</p>
+            <p>
+              {dueDate === ""
+                ? "Add due date"
+                : dueDate === format(new Date(), "MM/dd/yyyy")
+                ? "Due: Today"
+                : dueDate ===
+                  format(
+                    new Date().setDate(new Date().getDate() + 1),
+                    "MM/dd/yyyy"
+                  )
+                ? "Due: Tomorrow"
+                : `Due: ${dueDate}`}
+            </p>
           </div>
 
           <div className={datePickStyle} ref={refDate}>
-            {!openDatePicker ?
+            {!openDatePicker ? (
               <>
                 <h3>Due</h3>
                 <ul>
                   <li
                     onClick={() => {
-                      changeItemDueDate(elemId, format(new Date(), "MM/dd/yyyy"));
+                      changeItemDueDate(
+                        elemId,
+                        format(new Date(), "MM/dd/yyyy")
+                      );
                     }}
                   >
                     <TbCalendarDown /> <span>Today</span>
@@ -134,17 +157,24 @@ const EditingItem = ({
                   >
                     <TbCalendarShare /> <span>Tomorrow</span>
                   </li>
-                  <li onClick={() => setOpenDatePicker(openDatePicker => !openDatePicker)}>
+                  <li
+                    onClick={() =>
+                      setOpenDatePicker((openDatePicker) => !openDatePicker)
+                    }
+                  >
                     <TbCalendarPlus /> <span>Pick a date</span>
                   </li>
-                </ul></>
-              : null}
+                </ul>
+              </>
+            ) : null}
 
-            {openDatePicker ?
-              <Calendar date={new Date()} onChange={selectDueDate} className="editing__calendar" />
-              : null
-            }
-
+            {openDatePicker ? (
+              <Calendar
+                date={new Date()}
+                onChange={selectDueDate}
+                className="editing__calendar"
+              />
+            ) : null}
           </div>
         </div>
       </div>

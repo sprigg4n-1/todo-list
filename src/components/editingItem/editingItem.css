@@ -81,6 +81,14 @@
   transition: all 0.2s;
 }
 
+.editing__date-pick.completed {
+  color: var(--blue);
+}
+
+.editing__date-pick.overdue {
+  color: var(--red);
+}
+
 .editing__date-pick:hover {
   color: white;
 }
