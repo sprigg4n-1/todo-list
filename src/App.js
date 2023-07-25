@@ -42,7 +42,7 @@ function App() {
     },
     {
       icon: <BsCheck2All />,
-      text: "Checked",
+      text: "Completed",
       active: false,
       id: crypto.randomUUID(),
       path: "/checked",
