@@ -1,3 +1,8 @@
+/**
+ * 1. SCSS
+ * 2. React router
+ */
+
 import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
@@ -67,6 +72,7 @@ function App() {
   const [todoItems, setTodoItems] = useState(() => {
     const localValue = localStorage.getItem("ITEMS");
 
+    // TODO: if (!localValue) return []
     if (localValue === null) return [];
 
     return JSON.parse(localValue);
@@ -75,18 +81,29 @@ function App() {
   /**
    * searched item
    * */
+  // TODO: rename to searchQuery or something else
   const [searchedItem, setSearchedItem] = useState("");
 
   /**
    * filtered data in todoItems
    * */
   const filteredData = todoItems.filter((item) => {
-    if (searchedItem === "") {
-      return item;
-    } else if (item.text.toLowerCase().includes(searchedItem.toLowerCase())) {
-      return item;
-    }
+    // if (searchedItem === "") {
+    //   return item;
+    // } else if (item.text.toLowerCase().includes(searchedItem.toLowerCase())) {
+    //   return item;
+    // }
+
+    // TODO: change to this, method filter must return boolean (true item contain in filtered array, false item not contain)
+    return (
+      searchedItem === "" ||
+      item.text.toLowerCase().includes(searchedItem.toLowerCase())
+    );
   });
+  const importantData = todoItems.filter(
+    (item) => item.important && !item.checked
+  );
+  const overDueData = todoItems.filter((item) => item.dueDate < Date.now());
 
   /**
    * use state and function for reserved place to editing
@@ -99,37 +116,54 @@ function App() {
    * add to todoItems some item
    * */
   function addTodoItem(text, isImportant) {
+    // TODO: should will be reduce:
+    // setTodoItems((currentTodoItems) => {
+    //   return [
+    //     ...currentTodoItems,
+    //     {
+    //       id: crypto.randomUUID(),
+    //       text,
+    //       checked: false,
+    //      TODO: You can pass argument isimportant to key important without using ternary operator
+    //       important: isImportant,
+    //       createdDate: format(new Date(), "MM/dd/yyyy"),
+    //       dueDate: "",
+    //       completedInTime: true,
+    //       editing: false,
+    //     },
+    //   ];
+    // });
     isImportant
       ? setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: true,
-            createdDate: format(new Date(), "MM/dd/yyyy"),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      })
+          return [
+            ...currentTodoItems,
+            {
+              id: crypto.randomUUID(),
+              text: text,
+              checked: false,
+              important: true,
+              createdDate: format(new Date().getTime(), "MM/dd/yyyy"),
+              dueDate: "",
+              completedInTime: true,
+              editing: false,
+            },
+          ];
+        })
       : setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: false,
-            createdDate: format(new Date(), "MM/dd/yyyy"),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      });
+          return [
+            ...currentTodoItems,
+            {
+              id: crypto.randomUUID(),
+              text: text,
+              checked: false,
+              important: false,
+              createdDate: format(new Date(), "MM/dd/yyyy"),
+              dueDate: "",
+              completedInTime: true,
+              editing: false,
+            },
+          ];
+        });
   }
 
   /**
@@ -262,6 +296,7 @@ function App() {
   /**
    * function for toggle sidebar item and change page
    * */
+  // TODO: for routing should will use React Router
   function toggleActiveSidebarItem(id) {
     setSidebarItems((currentSidebarItem) => {
       return currentSidebarItem.map((item) => {
@@ -376,14 +411,16 @@ function App() {
    */
   useEffect(() => {
     if (searchedItem !== "") {
-      setTodoItems(todoItems => todoItems.map(item => {
-        return {
-          ...item,
-          editing: false
-        }
-      }))
+      setTodoItems((todoItems) =>
+        todoItems.map((item) => {
+          return {
+            ...item,
+            editing: false,
+          };
+        })
+      );
     }
-  }, [searchedItem])
+  }, [searchedItem]);
 
   return (
     <BrowserRouter>
@@ -431,7 +468,7 @@ function App() {
                   activeMenu={activeMenu}
                   icon={sidebarItems[1].icon}
                   title={sidebarItems[1].text}
-                  todoItems={filteredData}
+                  todoItems={importantData}
                   removeTodoItem={removeTodoItem}
                   toggleCheckedItem={toggleCheckedItem}
                   toggleImportantItem={toggleImportantItem}
