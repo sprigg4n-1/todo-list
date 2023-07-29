@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
-import { Header, Sidebar } from "./components";
+import { Header, Sidebar } from './components';
 
-import { FaRegStar } from "react-icons/fa";
-import { GoSun } from "react-icons/go";
-import { BsCheck2All } from "react-icons/bs";
-import { MdRemoveDone } from "react-icons/md";
+import { FaRegStar } from 'react-icons/fa';
+import { GoSun } from 'react-icons/go';
+import { BsCheck2All } from 'react-icons/bs';
+import { MdRemoveDone } from 'react-icons/md';
 
-import MydayList from "./pages/MydayList";
-import CheckedList from "./pages/CheckedList";
-import ImportantList from "./pages/ImportantList";
-import OverdueList from "./pages/OverdueList";
-
-import format from "date-fns/format";
-
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import "./App.css";
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import './App.css';
+import TodoList from './components/todoList/TodoList';
 
 function App() {
   // ------------------ use states ------------------------ //
@@ -28,31 +22,35 @@ function App() {
   const [sidebarItems, setSidebarItems] = useState([
     {
       icon: <GoSun />,
-      text: "My Day",
+      text: 'My Day',
       active: true,
       id: crypto.randomUUID(),
-      path: "/",
+      path: '/',
+      name: 'todolist',
     },
     {
       icon: <FaRegStar />,
-      text: "Important",
+      text: 'Important',
       active: false,
       id: crypto.randomUUID(),
-      path: "/important",
+      path: '/important',
+      name: 'important',
     },
     {
       icon: <BsCheck2All />,
-      text: "Completed",
+      text: 'Completed',
       active: false,
       id: crypto.randomUUID(),
-      path: "/checked",
+      path: '/checked',
+      name: 'completed',
     },
     {
       icon: <MdRemoveDone />,
-      text: "Overdue",
+      text: 'Overdue',
       active: false,
       id: crypto.randomUUID(),
-      path: "/overdue",
+      path: '/overdue',
+      name: 'overdue',
     },
   ]);
 
@@ -62,202 +60,21 @@ function App() {
   const [activeMenu, setActiveMenu] = useState(true);
 
   /**
-   * array of todo items
-   * */
-  const [todoItems, setTodoItems] = useState(() => {
-    const localValue = localStorage.getItem("ITEMS");
-
-    if (localValue === null) return [];
-
-    return JSON.parse(localValue);
-  });
-
-  /**
    * searched item
    * */
-  const [searchedItem, setSearchedItem] = useState("");
-
-  /**
-   * filtered data in todoItems
-   * */
-  const filteredData = todoItems.filter((item) => {
-    if (searchedItem === "") {
-      return item;
-    } else if (item.text.toLowerCase().includes(searchedItem.toLowerCase())) {
-      return item;
-    }
-  });
+  const [searchedItem, setSearchedItem] = useState('');
 
   /**
    * use state and function for reserved place to editing
    */
   const [activeReservedPlace, setActiveReservedPlace] = useState(false);
 
+  /**
+   * set arr of active side bar item
+   * */
+  const activeSidebarItem = sidebarItems.filter((item) => item.active);
+
   // ------------------ functions ------------------------ //
-
-  /**
-   * add to todoItems some item
-   * */
-  function addTodoItem(text, isImportant) {
-    isImportant
-      ? setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: true,
-            createdDate: format(new Date(), "MM/dd/yyyy"),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      })
-      : setTodoItems((currentTodoItems) => {
-        return [
-          ...currentTodoItems,
-          {
-            id: crypto.randomUUID(),
-            text: text,
-            checked: false,
-            important: false,
-            createdDate: format(new Date(), "MM/dd/yyyy"),
-            dueDate: "",
-            completedInTime: true,
-            editing: false,
-          },
-        ];
-      });
-  }
-
-  /**
-   * remove item from todo list
-   * */
-  function removeTodoItem(id) {
-    setTodoItems(todoItems.filter((item) => item.id !== id));
-  }
-
-  /**
-   * toggle check item status
-   * */
-  function toggleCheckedItem(id) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          checked: !item.checked,
-          editing: false,
-        };
-      }
-
-      return { ...item };
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  /**
-   * toggle important item status
-   * */
-  function toggleImportantItem(id) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          important: !item.important,
-        };
-      }
-
-      return item;
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  /**
-   * change item text
-   * */
-  function changeItemText(id, newValue) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          text: newValue,
-        };
-      }
-
-      return item;
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  /**
-   * function for set due date
-   */
-  function changeItemDueDate(id, newDate) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          dueDate: newDate,
-        };
-      }
-
-      return item;
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  /**
-   * function watch if overdue el
-   */
-  function changeOnTrueItemCompletedInTime(id) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        if (!item.completedInTime) {
-          return {
-            ...item,
-            completedInTime: true,
-            editing: false,
-          };
-        }
-        return {
-          ...item,
-          completedInTime: true,
-        };
-      }
-
-      return item;
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  function changeOnFalseItemCompletedInTime(id) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        if (!item.completedInTime) {
-          return {
-            ...item,
-            completedInTime: false,
-          };
-        }
-        return {
-          ...item,
-          completedInTime: false,
-          editing: false,
-        };
-      }
-
-      return item;
-    });
-
-    setTodoItems(updatedItems);
-  }
 
   /**
    * function for toggle sidebar item and change page
@@ -279,14 +96,7 @@ function App() {
       });
     });
 
-    const updatedItems = todoItems.map((item) => {
-      return {
-        ...item,
-        editing: false,
-      };
-    });
-
-    setTodoItems(updatedItems);
+    setActiveReservedPlace(false);
   }
 
   /**
@@ -303,88 +113,6 @@ function App() {
     setActiveMenu(false);
   }
 
-  /**
-   * check if editing item id same
-   * */
-  function toggleEditingItem(id) {
-    const updatedItems = todoItems.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          editing: !item.editing,
-        };
-      }
-
-      return {
-        ...item,
-        editing: false,
-      };
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  /**
-   * close editing mode
-   */
-  function closeEditingMode() {
-    const updatedItems = todoItems.map((item) => {
-      return {
-        ...item,
-        editing: false,
-      };
-    });
-
-    setTodoItems(updatedItems);
-  }
-
-  /**
-   *function for reserved place to editing
-   */
-  function checkActiveEditng() {
-    let isAllNotActive = true;
-
-    todoItems.forEach((item) => {
-      if (item.editing === true) {
-        isAllNotActive = false;
-      }
-    });
-
-    isAllNotActive
-      ? setActiveReservedPlace(false)
-      : setActiveReservedPlace(true);
-  }
-
-  // ------------------ use effects ------------------------ //
-
-  /**
-   * set todoItems to local storage
-   * */
-  useEffect(() => {
-    localStorage.setItem("ITEMS", JSON.stringify(todoItems));
-  }, [todoItems]);
-
-  /**
-   * looking for todo
-   * */
-  useEffect(() => {
-    checkActiveEditng();
-  }, [todoItems]);
-
-  /**
-   * looking for searched item
-   */
-  useEffect(() => {
-    if (searchedItem !== "") {
-      setTodoItems(todoItems => todoItems.map(item => {
-        return {
-          ...item,
-          editing: false
-        }
-      }))
-    }
-  }, [searchedItem])
-
   return (
     <BrowserRouter>
       <div className="app">
@@ -396,107 +124,15 @@ function App() {
             activeMenu={activeMenu}
             closeSidebar={closeSidebar}
           />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <MydayList
-                  openSidebar={openSidebar}
-                  activeMenu={activeMenu}
-                  icon={sidebarItems[0].icon}
-                  title={sidebarItems[0].text}
-                  todoItems={filteredData}
-                  addTodoItem={addTodoItem}
-                  removeTodoItem={removeTodoItem}
-                  toggleCheckedItem={toggleCheckedItem}
-                  toggleImportantItem={toggleImportantItem}
-                  toggleEditingItem={toggleEditingItem}
-                  changeItemText={changeItemText}
-                  closeEditingMode={closeEditingMode}
-                  changeItemDueDate={changeItemDueDate}
-                  changeOnTrueItemCompletedInTime={
-                    changeOnTrueItemCompletedInTime
-                  }
-                  changeOnFalseItemCompletedInTime={
-                    changeOnFalseItemCompletedInTime
-                  }
-                />
-              }
-            />
-            <Route
-              path="/important"
-              element={
-                <ImportantList
-                  openSidebar={openSidebar}
-                  activeMenu={activeMenu}
-                  icon={sidebarItems[1].icon}
-                  title={sidebarItems[1].text}
-                  todoItems={filteredData}
-                  removeTodoItem={removeTodoItem}
-                  toggleCheckedItem={toggleCheckedItem}
-                  toggleImportantItem={toggleImportantItem}
-                  toggleEditingItem={toggleEditingItem}
-                  changeItemText={changeItemText}
-                  closeEditingMode={closeEditingMode}
-                  addTodoItem={addTodoItem}
-                  changeItemDueDate={changeItemDueDate}
-                  changeOnTrueItemCompletedInTime={
-                    changeOnTrueItemCompletedInTime
-                  }
-                  changeOnFalseItemCompletedInTime={
-                    changeOnFalseItemCompletedInTime
-                  }
-                />
-              }
-            />
-            <Route
-              path="/checked"
-              element={
-                <CheckedList
-                  openSidebar={openSidebar}
-                  activeMenu={activeMenu}
-                  icon={sidebarItems[2].icon}
-                  title={sidebarItems[2].text}
-                  todoItems={filteredData}
-                  removeTodoItem={removeTodoItem}
-                  toggleCheckedItem={toggleCheckedItem}
-                  toggleImportantItem={toggleImportantItem}
-                  changeItemText={changeItemText}
-                  changeOnTrueItemCompletedInTime={
-                    changeOnTrueItemCompletedInTime
-                  }
-                  changeOnFalseItemCompletedInTime={
-                    changeOnFalseItemCompletedInTime
-                  }
-                />
-              }
-            />
-            <Route
-              path="/overdue"
-              element={
-                <OverdueList
-                  openSidebar={openSidebar}
-                  activeMenu={activeMenu}
-                  icon={sidebarItems[3].icon}
-                  title={sidebarItems[3].text}
-                  todoItems={filteredData}
-                  removeTodoItem={removeTodoItem}
-                  toggleCheckedItem={toggleCheckedItem}
-                  toggleImportantItem={toggleImportantItem}
-                  toggleEditingItem={toggleEditingItem}
-                  changeItemText={changeItemText}
-                  closeEditingMode={closeEditingMode}
-                  changeItemDueDate={changeItemDueDate}
-                  changeOnTrueItemCompletedInTime={
-                    changeOnTrueItemCompletedInTime
-                  }
-                  changeOnFalseItemCompletedInTime={
-                    changeOnFalseItemCompletedInTime
-                  }
-                />
-              }
-            />
-          </Routes>
+
+          <TodoList
+            activeListOfTasks={activeSidebarItem[0]}
+            activeMenu={activeMenu}
+            openSidebar={openSidebar}
+            searchedItem={searchedItem}
+            setActiveReservedPlace={setActiveReservedPlace}
+          />
+
           {activeReservedPlace ? (
             <div className="reserved-space-for-editing"></div>
           ) : null}

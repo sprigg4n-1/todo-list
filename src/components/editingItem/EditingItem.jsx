@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { FaRegEdit } from "react-icons/fa";
-import { AiOutlineClose } from "react-icons/ai";
-import { BsCalendar3 } from "react-icons/bs";
-import { TbCalendarShare } from "react-icons/tb";
-import { TbCalendarDown } from "react-icons/tb";
-import { TbCalendarPlus } from "react-icons/tb";
+import { FaRegEdit } from 'react-icons/fa';
+import { AiOutlineClose } from 'react-icons/ai';
+import { BsCalendar3 } from 'react-icons/bs';
+import { TbCalendarShare } from 'react-icons/tb';
+import { TbCalendarDown } from 'react-icons/tb';
+import { TbCalendarPlus } from 'react-icons/tb';
 
-import CheckBtn from "../listItem/btns/CheckBtn";
-import ImportantBtn from "../listItem/btns/ImportantBtn";
-import DeleteBtn from "../listItem/btns/DeleteBtn";
+import CheckBtn from '../listItem/btns/CheckBtn';
+import ImportantBtn from '../listItem/btns/ImportantBtn';
+import DeleteBtn from '../listItem/btns/DeleteBtn';
 
-import { Calendar } from "react-date-range";
+import { Calendar } from 'react-date-range';
 
-import "./editingItem.css";
-import { format } from "date-fns";
-import { useEffect, useRef } from "react";
+import './editingItem.css';
+import { format } from 'date-fns';
+import { useEffect, useRef } from 'react';
 
 const EditingItem = ({
   activeEditing,
@@ -37,17 +37,17 @@ const EditingItem = ({
   /**
    * style for editing mode and for date pick element
    */
-  const editingStyle = activeEditing ? "editing" : "editing closed";
+  const editingStyle = activeEditing ? 'editing' : 'editing closed';
   const datePickStyle = activeDatePick
-    ? "editing__date-element"
-    : "editing__date-element hide";
+    ? 'editing__date-element'
+    : 'editing__date-element hide';
 
-  const addDueDateStyle =
-    dueDate === ""
-      ? "editing__date-pick"
-      : dueDate >= format(new Date(), "MM/dd/yyyy")
-        ? "editing__date-pick completed"
-        : "editing__date-pick overdue";
+  const addDueDateStyle = !dueDate
+    ? 'editing__date-pick'
+    : format(new Date(dueDate), 'MM/dd/yyyy') >=
+      format(new Date(), 'MM/dd/yyyy')
+    ? 'editing__date-pick completed'
+    : 'editing__date-pick overdue';
 
   // ref for date pick element
   const refDate = useRef(null);
@@ -55,9 +55,10 @@ const EditingItem = ({
   const [openDatePicker, setOpenDatePicker] = useState(false);
 
   const selectDueDate = (date) => {
-    changeItemDueDate(elemId, format(date, "MM/dd/yyyy"));
+    changeItemDueDate(elemId, date);
     setOpenDatePicker(false);
   };
+
   /**
    * functions for closing date pick element
    * when click outside element and press key esc
@@ -69,7 +70,7 @@ const EditingItem = ({
   };
 
   const hideOnPressEsc = (e) => {
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       setActiveDatePick(false);
     }
   };
@@ -78,8 +79,8 @@ const EditingItem = ({
    * when app start loading functions
    */
   useEffect(() => {
-    document.addEventListener("click", hideOnClickOutside, true);
-    document.addEventListener("keydown", hideOnPressEsc, true);
+    document.addEventListener('click', hideOnClickOutside, true);
+    document.addEventListener('keydown', hideOnPressEsc, true);
   }, []);
 
   return (
@@ -116,31 +117,32 @@ const EditingItem = ({
             <div className={addDueDateStyle} onClick={toggleDatePick}>
               <BsCalendar3 />
               <p>
-                {dueDate === ""
-                  ? "Add due date"
-                  : dueDate === format(new Date(), "MM/dd/yyyy")
-                    ? "Due: Today"
-                    : dueDate ===
-                      format(
-                        new Date().setDate(new Date().getDate() + 1),
-                        "MM/dd/yyyy"
-                      )
-                      ? "Due: Tomorrow"
-                      : dueDate ===
-                        format(
-                          new Date().setDate(new Date().getDate() - 1),
-                          "MM/dd/yyyy"
-                        )
-                        ? "Due: Yesterday"
-                        : `Due: ${dueDate}`}
+                {!dueDate
+                  ? 'Add due date'
+                  : format(new Date(dueDate), 'MM/dd/yyyy') ===
+                    format(new Date(), 'MM/dd/yyyy')
+                  ? 'Due: Today'
+                  : format(new Date(dueDate), 'MM/dd/yyyy') ===
+                    format(
+                      new Date().setDate(new Date().getDate() + 1),
+                      'MM/dd/yyyy'
+                    )
+                  ? 'Due: Tomorrow'
+                  : format(new Date(dueDate), 'MM/dd/yyyy') ===
+                    format(
+                      new Date().setDate(new Date().getDate() - 1),
+                      'MM/dd/yyyy'
+                    )
+                  ? 'Due: Yesterday'
+                  : `Due: ${format(new Date(dueDate), 'MM/dd/yyyy')}`}
               </p>
             </div>
-            {dueDate !== ""
-              ? <AiOutlineClose
-                onClick={() => changeItemDueDate(elemId, "")}
-                className="editing__clear-date" />
-              : null
-            }
+            {dueDate ? (
+              <AiOutlineClose
+                onClick={() => changeItemDueDate(elemId, null)}
+                className="editing__clear-date"
+              />
+            ) : null}
           </div>
 
           <div className={datePickStyle} ref={refDate}>
@@ -150,10 +152,7 @@ const EditingItem = ({
                 <ul>
                   <li
                     onClick={() => {
-                      changeItemDueDate(
-                        elemId,
-                        format(new Date(), "MM/dd/yyyy")
-                      );
+                      changeItemDueDate(elemId, new Date().getTime());
                     }}
                   >
                     <TbCalendarDown /> <span>Today</span>
@@ -162,10 +161,9 @@ const EditingItem = ({
                     onClick={() => {
                       changeItemDueDate(
                         elemId,
-                        format(
-                          new Date().setDate(new Date().getDate() + 1),
-                          "MM/dd/yyyy"
-                        )
+                        new Date(
+                          new Date().setDate(new Date().getDate() + 1)
+                        ).getTime()
                       );
                     }}
                   >
@@ -184,7 +182,7 @@ const EditingItem = ({
 
             {openDatePicker ? (
               <Calendar
-                date={new Date()}
+                date={new Date().getTime()}
                 onChange={selectDueDate}
                 className="editing__calendar"
               />
@@ -195,10 +193,17 @@ const EditingItem = ({
 
       <div className="editing__bottom">
         <p>
-          Created{" "}
-          {createdDate === format(new Date(), "MM/dd/yyyy")
-            ? "today"
-            : createdDate}
+          Created{' '}
+          {format(new Date(createdDate), 'MM/dd/yyyy') ===
+          format(new Date(), 'MM/dd/yyyy')
+            ? 'today'
+            : format(new Date(createdDate), 'MM/dd/yyyy') ===
+              format(new Date().setDate(new Date().getDate() + 1), 'MM/dd/yyyy')
+            ? 'tomorrow'
+            : format(new Date(createdDate), 'MM/dd/yyyy') ===
+              format(new Date().setDate(new Date().getDate() - 1), 'MM/dd/yyyy')
+            ? 'yesterday'
+            : `${format(new Date(createdDate), 'MM/dd/yyyy')}`}
         </p>
         <div className="editing__delete">
           <DeleteBtn removeTodoItem={removeTodoItem} elemId={elemId} />

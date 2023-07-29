@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import EditingItem from "../editingItem/EditingItem";
-import CheckBtn from "./btns/CheckBtn";
-import DeleteBtn from "./btns/DeleteBtn";
-import ImportantBtn from "./btns/ImportantBtn";
+import EditingItem from '../editingItem/EditingItem';
+import CheckBtn from './btns/CheckBtn';
+import DeleteBtn from './btns/DeleteBtn';
+import ImportantBtn from './btns/ImportantBtn';
 
-import "./listItem.css";
-import { format } from "date-fns";
+import './listItem.css';
+import { format } from 'date-fns';
 
 const ListItem = ({
   text,
@@ -23,18 +23,16 @@ const ListItem = ({
   changeItemText,
   closeEditingMode,
   changeItemDueDate,
-  completedInTime,
-  changeOnTrueItemCompletedInTime,
-  changeOnFalseItemCompletedInTime,
 }) => {
   /**
    * Style for list item
    */
-  const itemStyle = checked ? "list-item checked" : "list-item";
+  const itemStyle = checked ? 'list-item checked' : 'list-item';
 
-  const dueDateStyle = completedInTime
-    ? "list-item__text"
-    : "list-item__text overdue";
+  const dueDateStyle =
+    format(new Date(dueDate), 'MM/dd/yyyy') >= format(new Date(), 'MM/dd/yyyy')
+      ? 'list-item__text'
+      : 'list-item__text overdue';
 
   /**
    * state for change text in item
@@ -81,17 +79,8 @@ const ListItem = ({
    * task overdue or not
    */
   useEffect(() => {
-    if (dueDate === "") {
-      console.log("true");
-      changeOnTrueItemCompletedInTime(id);
-    } else if (dueDate >= format(new Date(), "MM/dd/yyy")) {
-      console.log("true");
-      changeOnTrueItemCompletedInTime(id);
-    } else if (dueDate < format(new Date(), "MM/dd/yyy")) {
-      console.log(dueDate);
-      changeOnFalseItemCompletedInTime(id);
-    }
-  }, [dueDate, format(new Date(), "MM/dd/yyy")]);
+    console.log('changed');
+  }, [dueDate, format(new Date(), 'MM/dd/yyy')]);
 
   return (
     <>
@@ -102,23 +91,24 @@ const ListItem = ({
         <div className={dueDateStyle} onClick={() => toggleEditingItem(id)}>
           <p>{text}</p>
           <span>
-            {dueDate === ""
+            {!dueDate
               ? null
-              : dueDate === format(new Date(), "MM/dd/yyyy")
-                ? "Due: Today"
-                : dueDate ===
-                  format(
-                    new Date().setDate(new Date().getDate() + 1),
-                    "MM/dd/yyyy"
-                  )
-                  ? "Due: Tomorrow"
-                  : dueDate ===
-                    format(
-                      new Date().setDate(new Date().getDate() - 1),
-                      "MM/dd/yyyy"
-                    )
-                    ? "Due: Yesterday"
-                    : `Due: ${dueDate}`}
+              : format(new Date(dueDate), 'MM/dd/yyyy') ===
+                format(new Date(), 'MM/dd/yyyy')
+              ? 'Due: Today'
+              : format(new Date(dueDate), 'MM/dd/yyyy') ===
+                format(
+                  new Date().setDate(new Date().getDate() + 1),
+                  'MM/dd/yyyy'
+                )
+              ? 'Due: Tomorrow'
+              : format(new Date(dueDate), 'MM/dd/yyyy') ===
+                format(
+                  new Date().setDate(new Date().getDate() - 1),
+                  'MM/dd/yyyy'
+                )
+              ? 'Due: Yesterday'
+              : `Due: ${format(new Date(dueDate), 'MM/dd/yyyy')}`}
           </span>
         </div>
 
@@ -131,6 +121,7 @@ const ListItem = ({
           <DeleteBtn removeTodoItem={removeTodoItem} elemId={id} />
         </div>
       </li>
+
       <EditingItem
         activeEditing={editing}
         text={text}
@@ -148,7 +139,6 @@ const ListItem = ({
         activeDatePick={activeDatePick}
         setActiveDatePick={setActiveDatePick}
         changeItemDueDate={changeItemDueDate}
-        completedInTime={completedInTime}
         dueDate={dueDate}
       />
     </>
