@@ -95,8 +95,6 @@ function App() {
         };
       });
     });
-
-    setActiveReservedPlace(false);
   }
 
   /**
